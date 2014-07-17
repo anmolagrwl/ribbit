@@ -1,14 +1,45 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>Ribbit</title>
-  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
-  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <title>RibbitApp</title>
+  <link rel="stylesheet/less" href="/style.less">
+  <script src="/less.js"></script>
   <%= csrf_meta_tags %>
 </head>
 <body>
+	<header>
+		<div class="wrapper">
+			<img src="/gfx/logo.png">
+			<span>Twitter clone</span>
+			<% if current_user %>
+					<%= link_to "Buddies' Ribbits", buddies_path %>
+					<%= link_to "Public Ribbits", ribbits_path %>
+					<%= link_to "Public Profiles", users_path %>
+					<%= link_to "My Profile", current_user %>  
+					<%= link_to "Logout", logout_path %>
+			<% else %>
+				<%= form_tag sessions_path do %>
+				  <%= text_field_tag :username,nil, placeholder: "username" %>
+				  <%= password_field_tag :password,nil, placeholder: "password" %>
+				  <%= submit_tag "Login" %>
+				<% end %>
+			<% end %>
+		</div>
+	</header>
 
-<%= yield %>
+	<div id="content">
+		<div class="wrapper">
+			<% flash.each do |name, msg| %>
+				<%= content_tag :div, msg, class: "flash #{name}" %>
+			<% end %>
+			<%= yield %>
+		</div>
+	</div>
 
+	<footer>
+		<div class="wrapper">
+			Ribbit- A Twitter clone 
+		</div>
+	</footer>
 </body>
 </html>
